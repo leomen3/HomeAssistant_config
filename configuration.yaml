@@ -1,0 +1,67 @@
+homeassistant:
+    name: My Sweet Home
+    latitude: !secret latitude_coord
+    longitude: !secret longitude_coord
+    elevation: 5
+    unit_system: metric
+    time_zone:  Asia/Jerusalem
+
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+#Вынос во внешние файлы
+timer: !include includes/timer.yaml
+input_boolean: !include includes/input_boolean.yaml
+group: !include includes/groups.yaml
+script: !include includes/scripts.yaml
+scene: !include includes/scenes.yaml
+recorder: !include includes/recorder.yaml
+
+
+
+#Вынос во внешние папки
+sensor: !include_dir_merge_list includes/sensor
+automation: !include_dir_merge_list includes/automation
+
+mqtt:
+## Выбрать один из вариантов для брокера!  
+  broker: core-mosquitto  # Локальный брокер
+  #broker: IP adress  # Внешний брокер
+  discovery: true
+  discovery_prefix: homeassistant  
+  username: mqtt
+  password: mqtt
+
+
+
+lovelace:
+  mode: yaml
+
+
+#telegram integration
+telegram_bot:
+  - platform: broadcast
+    api_key: "506713423:AAEAGQrbSXhrgRbXzvzkY2T7abTgay8JyKY"
+    allowed_chat_ids:
+      - !secret telegram_chat_id
+
+# telegram notifier
+notify:
+  - name: telegram_notify
+    platform: telegram
+    chat_id: !secret telegram_chat_id
+
+
+
+#DUCK DNS
+http:
+    base_url: https://hass1995.duckdns.org/
+    server_port: 8123
+    ssl_certificate: /ssl/fullchain.pem
+    ssl_key: /ssl/privkey.pem
+
