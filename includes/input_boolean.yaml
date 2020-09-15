@@ -1,0 +1,18 @@
+zigbee_permit_join:
+    name: Allow devices to join
+    initial: off
+    icon: mdi:cellphone-wireless
+    
+    
+
+# Home States
+
+alarm_status:
+    name: Status of home alarm
+    initial: off
+    icon: mdi:alarm-light-outline
+    
+upper_floor_alarm_status:
+    name: Enable upper floor alarm
+    initial: off
+    icon: mdi:alarm-light-outline

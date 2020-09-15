@@ -1,0 +1,2 @@
+2020-09-15 10:49:56 WARNING (MainThread) [homeassistant.components.http] The 'base_url' option is deprecated, please remove it from your configuration
+2020-09-15 10:49:56 WARNING (Recorder) [homeassistant.components.recorder] Ended unfinished session (id=14 from 2020-09-14 21:55:27)

@@ -1,0 +1,109 @@
+- alias: Turn_Alarm_On
+  initial_state: true
+  trigger:
+# Выключатель подключенный через zigbe2mqtt
+   - platform: state
+     entity_id: sensor.0x00158d000345684e_click
+     to: 'left'       
+
+  action:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.alarm_status
+    
+           
+- alias: Turn_Alarm_Off
+  initial_state: true
+  trigger:
+# Выключатель подключенный через zigbe2mqtt
+   - platform: state
+     entity_id: sensor.0x00158d000345684e_click
+     to: 'right'       
+
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.alarm_status
+    
+    
+    
+- alias: Service_Door_Opened
+  initial_state: true
+  trigger:
+# Выключатель подключенный через zigbe2mqtt
+   - platform: state
+     entity_id: binary_sensor.0x00158d0004448cf4_contact
+     to: 'on'       
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_status
+      state: 'on'
+
+  action:
+      service: notify.telegram_notify
+      data:
+        message: "Service Door Was Opened!"
+        title: "ALARM WARNING"
+        
+        
+- alias: Front_Door_Opened
+  initial_state: true
+  trigger:
+# Выключатель подключенный через zigbe2mqtt
+   - platform: state
+     entity_id: binary_sensor.0x00158d00041cbac0_contact
+     to: 'on'       
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_status
+      state: 'on'
+
+  action:
+      service: notify.telegram_notify
+      data:
+        message: "Front Door Was Opened!"
+        title: "ALARM WARNING"
+        
+
+- alias: Living_Room_Motion
+  initial_state: true
+  trigger:
+   - platform: state
+     entity_id: binary_sensor.hue_motion_sensor_1_motion
+     to: 'on'       
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_status
+      state: 'on'
+
+  action:
+      service: notify.telegram_notify
+      data:
+        message: "Movement In Living Room"
+        title: "ALARM WARNING"
+        
+        
+- alias: Upper_Floor_Motion
+  initial_state: true
+  trigger:
+   - platform: state
+     entity_id: binary_sensor.0x00158d000449763b_occupancy
+     to: 'on'       
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_status
+      state: 'on'
+      
+    - condition: state
+      entity_id: input_boolean.upper_floor_alarm_status
+      state: 'on'
+
+  action:
+      service: notify.telegram_notify
+      data:
+        message: "Movement On Upper Floor"
+        title: "ALARM WARNING"
